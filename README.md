@@ -1,48 +1,36 @@
-# Notion Status Automation - Test Task Submission
+# Notion to Slack & Google Sheets Automation
 
-This repository contains the complete solution for the Automation Engineer (Contract) test task. The project automates Notion status updates, notifying Slack and logging events in Google Sheets with built-in duplicate protection.
+This project automates your workflow. It monitors a Notion database and notifies you on Slack when a task is finished, while keeping a clean history in Google Sheets.
 
-## 📝 Solution Description (5–10 sentences)
+## 📝 What this Automation Does
 
-This automation uses a Notion "Watch Database Items" trigger configured for record updates in the "Requests" database. A filter ensures only entries with the status **"Done"** pass to the core logic. To prevent duplicate entries, the scenario first searches the Google Sheets "Automation Log" for existing rows with the same record Title and Status. A **Router** then branches the flow: if no matching log is found (New Entry), it sends a formatted message to Slack and adds a new row to Google Sheets. If a duplicate exists, the scenario gracefully skips the actions, ensuring the log remains clean. All field mappings use `ifempty()` logic to safely handle any missing data in Notion properties.
+This tool specifically looks for any task in Notion that is marked as **"Done."** 
 
-## ⚙️ How it Works (Logic & Validations)
+When a task reaches "Done" status, the automation:
+1.  **Checks for Duplicates:** It first checks Google Sheets to see if this task was already recorded. This prevents the same task from being logged twice.
+2.  **Sends a Slack Alert:** If it's a new "Done" task, it sends a neat message to your Slack channel.
+3.  **Logs to Google Sheets:** It then adds the task details (Title, Owner, and Time) to your spreadsheet for your records.
 
--   **Trigger:** Notion (Watching for updates in the 'Requests' database).
--   **Validation 1 (Filter):** Passes only records where `Status = Done`.
--   **Validation 2 (Duplicate Check):** Uses a Google Sheets search module to check for existing entries.
--   **Router Logic:** 
-    -   **Route 1 (Not a Duplicate):** Sends Slack notification → Adds Google Sheets row.
-    -   **Route 2 (Duplicate):** Stops processing (Duplicate detected).
--   **Handling Empty Fields:** Each mapping is protected with fallbacks (e.g., `{{ifempty(Title; "(No title)")}}`).
+## ⚙️ How it Works 
 
-## 📁 Repository Contents
+-   **The Trigger:** It watches your Notion "Requests" database for any updates.
+-   **The Gatekeeper:** A filter only lets tasks through if they are exactly set to "Done."
+-   **The Protection:** It searches your spreadsheet first. If the task is already there, it stops (to avoid duplicate entries).
+-   **Error Prevention:** If a Notion field is accidentally left blank, the automation won't crash. It will just use a default name like "(No title)" or "(Unassigned)."
 
-| File | Description |
+## 📁 What's in this Folder?
+
+| File | What is it? |
 |------|-------------|
-| [blueprint.json](./blueprint.json) | The complete Make.com scenario export to be imported. |
-| [Automation_Log_Headers.csv](./Automation_Log_Headers.csv) | Header template for the Google Sheets 'Automation Log' table. |
-| [README.md](./README.md) | Full project documentation and submission summary. |
+| `blueprint.json` | The "brain" of the automation. You can import this into Make.com to set it up instantly. |
+| `Automation_Log_Headers.csv` | A template showing how to set up your Google Sheet columns. |
+| `README.md` | This simple guide. |
 
-## 🛠 Setup & Maintenance
+## 🛠 Easy Setup Guide
 
-### Setup
-1.  **Google Sheets:** Create a spreadsheet named "Automation Log" and import [Automation_Log_Headers.csv](./Automation_Log_Headers.csv).
-2.  **Make.com:** Create a new scenario and **Import Blueprint** using [blueprint.json](./blueprint.json).
-3.  **Connections:** Re-link your Notion, Slack, and Google accounts in each module.
-4.  **Notion:** Ensure the "Requests" database is shared with your Notion integration.
+1.  **Spreadsheet:** Create a Google Sheet and name your columns using the [template provided](./Automation_Log_Headers.csv).
+2.  **Make.com:** Create a new scenario and select **"Import Blueprint"** to upload the `blueprint.json` file.
+3.  **Connect Your Apps:** Click on each module (Notion, Slack, Google Sheets) to sign in to your accounts.
+4.  **Turn it On:** Save and click "Run Once" or set it to run automatically!
 
-### Maintenance
--   **Connections:** If any service stops working, check the "Connections" tab in Make.com.
--   **Database Fields:** If you rename a Notion property (e.g., change "Owner" to "Assignee"), you must update the mapping in the Slack and Google Sheets modules.
--   **Logs:** Monitor the "History" tab in Make.com for any failed executions or 4xx/5xx errors from APIs.
 
-## 📈 Evaluation Criteria Check
--   [x] Works correctly
--   [x] Duplicate protection implemented
--   [x] Logic is clear and documented
--   [x] Empty fields are handled
--   [x] Slack format follows requirements
-
----
-*Created for the Automation Engineer Contract Test Task.*
