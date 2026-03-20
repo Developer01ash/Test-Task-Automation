@@ -23,7 +23,10 @@ When a task reaches "Done" status, the automation:
 | File | What is it? |
 |------|-------------|
 | `blueprint.json` | The "brain" of the automation. You can import this into Make.com to set it up instantly. |
+| `Testing.md` | **Testing Proof & Results**: A report with visual screenshots as proof of work. |
+| `Approach_Document.md` | A quick guide on how I designed the workflow and the steps followed. |
 | `Automation_Log_Headers.csv` | A template showing how to set up your Google Sheet columns. |
+| `screenshots/` | Folder containing all visual proof and success images. |
 | `README.md` | This simple guide. |
 
 ## 🛠 Easy Setup Guide
@@ -31,6 +34,4 @@ When a task reaches "Done" status, the automation:
 1.  **Spreadsheet:** Create a Google Sheet and name your columns using the [template provided](./Automation_Log_Headers.csv).
 2.  **Make.com:** Create a new scenario and select **"Import Blueprint"** to upload the `blueprint.json` file.
 3.  **Connect Your Apps:** Click on each module (Notion, Slack, Google Sheets) to sign in to your accounts.
-4.  **Turn it On:** Save and click "Run Once" or set it to run automatically!
-
-
+4.  **Turn it On:** Save and click "Run Once" or set it to run automatically! 
